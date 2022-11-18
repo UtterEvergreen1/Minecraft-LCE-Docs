@@ -63,7 +63,8 @@ splitArr1: 0x77 0x73 0x77 0x77 0x77 0x73 0x77 0x73
 --- convert to binary ---
 binaryArr1: 0000000000000100000000000000010000000000000001000000000000000100
 binaryArr2: 0111011101110011011101110111011101110111011100110111011101110011
---- add the bits together (not a normal OR operation, just go through each bit and merge them together) ---
+--- add the bits together (not a normal OR operation, just go through each bit and add them together) ---
+--- (think of it like "vertical binary", where the bottom array is 1 bit, the second to bottom is 2 bits, etc.) ---
 final     : 0111011101110211011101110111031101110111011102110111011101110211
 ```  
 # __**4. Block Light & Sky Light `[X..??]`**__  
@@ -72,10 +73,11 @@ final     : 0111011101110211011101110111031101110111011102110111011101110211
 There are 4 different "sections" of light, the first 2 dedicated to the SkyLight, and the last 2 being the BlockLight. Since they're basically the same format, we'll cover just one section.
 
 • The first 0x4 bytes `[X..X+0x3]` defines the length of the light data (minus the header). Multiply by `0x80` to get the actual size. We'll refer to this size as Y for now.  
-> If the length is `0x00000000`, then skip the third bullet point as no light data is actually stored, it's all defined in the header itself.
-• The next 0x80 bytes `[X+0x4..X+0x83]` is the light data header. Every byte is an offset pointing to where the light data should be retrieved from. Multiply the offset by `0x80` to get the actual offset in the light data. If an offset is `0x80`, then the 128 bytes should all be filled with `0x00`, and if the offset is `0x81`, all 128 bytes should be `0xFF`.
-• The rest of the bytes for the section `[X+0x84..(X+0x84)+Y]` make up the light data itself, but only if the light data length is more than **0**. 
-
+> If the length is `0x00000000`, then skip the third bullet point as no light data is actually stored, it's all defined in the header itself.  
+  
+• The next 0x80 bytes `[X+0x4..X+0x83]` is the light data header. Every byte is an offset pointing to where the light data should be retrieved from. Multiply the offset by `0x80` to get the actual offset in the light data. If an offset is `0x80`, then the 128 bytes should all be filled with `0x00`, and if the offset is `0x81`, all 128 bytes should be `0xFF`.  
+• The rest of the bytes for the section `[X+0x84..(X+0x84)+Y]` make up the light data itself, but only if the light data length is more than **0**.  
+  
 # __**5. Height Map, TerrainPopulatedFlags, & Biomes `[0x??..(0x??+0x202)]`**__  
 • The first 0x100 bytes store the HeightMap byte array.  
 • The next 0x2 bytes store the short `TerrainPopulatedFlags`.  
