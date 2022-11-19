@@ -71,6 +71,7 @@ final     : 0111011101110211011101110111031101110111011102110111011101110211
 ## ⚠️ **WARNING:** Data may be inaccurate! ⚠️  
 > **\*** X is the block data size, as shown in the **Section Data**. Add `0x4C` to get the starting offset. `[0x1A..0x1B]`  
 There are 4 different "sections" of light, the first 2 dedicated to the SkyLight, and the last 2 being the BlockLight. Since they're basically the same format, we'll cover just one section.
+> I kind of rushed this part of the documentation so, future me, please fix this up.
 
 • The first 0x4 bytes `[X..X+0x3]` defines the length of the light data (minus the header). Multiply by `0x80` to get the actual size. We'll refer to this size as Y for now.  
 > If the length is `0x00000000`, then skip the third bullet point as no light data is actually stored, it's all defined in the header itself.  
